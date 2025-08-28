@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheikh Mohammad Amirul Hasan - Master Pattern Designer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #f59e0b;
+            --accent: #ec4899;
+            --dark: #0f172a;
+            --light: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-accent: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--gray-700);
+            overflow-x: hidden;
+            background: var(--gray-50);
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Hero Section with Photo */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+
+        /* Animated Background Particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 8px; height: 8px; left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { width: 6px; height: 6px; left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { width: 10px; height: 10px; left: 40%; animation-delay: 0.5s; }
+        .particle:nth-child(5) { width: 5px; height: 5px; left: 50%; animation-delay: 1.5s; }
+        .particle:nth-child(6) { width: 7px; height: 7px; left: 60%; animation-delay: 2.5s; }
+        .particle:nth-child(7) { width: 9px; height: 9px; left: 70%; animation-delay: 0.8s; }
+        .particle:nth-child(8) { width: 6px; height: 6px; left: 80%; animation-delay: 1.8s; }
+        .particle:nth-child(9) { width: 4px; height: 4px; left: 90%; animation-delay: 2.2s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+        }
+
+        /* Geometric Shapes */
+        .hero-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+        }
+
+        .shape-1 {
+            top: 20%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-secondary);
+            border-radius: 20px;
+            animation: rotate 10s linear infinite;
+        }
+
+        .shape-2 {
+            top: 60%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-tertiary);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .shape-3 {
+            bottom: 20%;
+            left: 20%;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-accent);
+            transform: rotate(45deg);
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes bounce { 0%, 100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(-20px); } }
+
+        .hero-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Profile Photo Section */
+        .hero-photo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .photo-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+        }
+
+        .photo-main {
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-2xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 27px;
+            transition: all 0.3s ease;
+        }
+
+        .photo-main:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-bg {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-secondary);
+            border-radius: 30px;
+            z-index: -1;
+        }
+
+        .photo-decoration {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            animation: rotate 8s linear infinite;
+        }
+
+        .photo-decoration.top-left {
+            top: -20px;
+            left: -20px;
+        }
+
+        .photo-decoration.bottom-right {
+            bottom: -20px;
+            right: -20px;
+            animation-direction: reverse;
+        }
+
+        /* Hero Content */
+        .hero-content {
+            color: white;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 25px;
+            animation: slideInDown 1s ease 0.2s both;
+        }
+
+        .hero-badge i {
+            color: var(--secondary);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInUp 1s ease 0.4s both;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+            animation: slideInUp 1s ease 0.6s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            animation: slideInUp 1s ease 0.8s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Profile Info Cards */
+        .hero-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            animation: slideInUp 1s ease 1s both;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .info-card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin: 0 auto 15px;
+        }
+
+        .info-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .info-card-value {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            background: var(--gray-50);
+            position: relative;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image-main {
+            width: 100%;
+            height: 400px;
+            background: var(--gradient-primary);
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .about-image-bg {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-secondary);
+            border-radius: 25px;
+            z-index: -1;
+        }
+
+        .about-content h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--gray-600);
+            margin-bottom: 25px;
+        }
+
+        .about-features {
+            display: grid;
+            gap: 15px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .feature-text {
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        /* Experience Section */
+        .experience {
+            background: white;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient-primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            max-width: 450px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            margin: 0 30px;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border: 12px solid transparent;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            left: -24px;
+            border-right-color: white;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            right: -24px;
+            border-left-color: white;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .timeline-date {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 6px;
+        }
+
+        .timeline-company {
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .timeline-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Skills Section */
+        .skills {
+            background: var(--gray-50);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .skill-category-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .skill-category-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            margin: 0 auto 15px;
+        }
+
+        .skill-category-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .skill-items {
+            display: grid;
+            gap: 12px;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--gray-50);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .skill-item-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient-secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .skill-item:hover .skill-item-icon {
+            background: white;
+            color: var(--primary);
+        }
+
+        .skill-item-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .contact-card-icon {
+            width: 70px;
+            height: 70px;
+            background: white;
+            color: var(--primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 15px;
+        }
+
+        .contact-card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .contact-card-info {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translate3d(0, -100%, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translate3d(0, 100%, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translate3d(0, 40px, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+
+        /* Scroll Reveal */
+        [data-reveal] {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        [data-reveal].revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                flex-direction: row !important;
+                padding-left: 60px;
+            }
+            
+            .timeline-content {
+                margin: 0 0 0 15px;
+            }
+            
+            .timeline-content::before {
+                left: -24px !important;
+                border-right-color: white !important;
+                border-left-color: transparent !important;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 100vh;
+                padding: 20px;
+            }
+            
+            .hero-container {
+                gap: 30px;
+            }
+            
+            .photo-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .hero-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Hero Section with Photo -->
+    <section class="hero" id="hero">
+        <!-- Animated Particles -->
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <!-- Geometric Shapes -->
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+
+        <div class="hero-container">
+            <!-- Profile Photo Section -->
+            <div class="hero-photo">
+                <div class="photo-container">
+                    <div class="photo-main">
+                        <!-- Your Photo is now automatically loaded -->
+                        <img src="images/amirul.jpg" alt="Sheikh Mohammad Amirul Hasan - Senior Pattern Master" loading="lazy">
+                    </div>
+                    <div class="photo-bg"></div>
+                    <div class="photo-decoration top-left"></div>
+                    <div class="photo-decoration bottom-right"></div>
+                </div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Senior Pattern Master • CAD/Manual Expert</span>
+                </div>
+
+                <h1 class="hero-title">Sheikh Mohammad Amirul Hasan</h1>
+                
+                <p class="hero-subtitle">
+                    Master craftsman with 23+ years of expertise in pattern creation, garment design, and manufacturing excellence. Transforming fashion visions into precision patterns with unmatched accuracy and innovation.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#about" class="btn btn-primary">
+                        <i class="fas fa-user"></i>
+                        View Portfolio
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-phone"></i>
+                        Contact Me
+                    </a>
+                </div>
+
+                <!-- Profile Information Cards -->
+                <div class="hero-info">
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="info-card-title">Experience</div>
+                        <div class="info-card-value">23+ Years</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-card-title">Location</div>
+                        <div class="info-card-value">New Delhi</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="info-card-title">Specialization</div>
+                        <div class="info-card-value">CAD/Manual</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <div class="info-card-title">Languages</div>
+                        <div class="info-card-value">Hindi, English, Arabic</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-wrapper">
+        <!-- About Section -->
+        <section class="section about" id="about">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <div class="section-badge">
+                        <i class="fas fa-user"></i>
+                        About Me
+                    </div>
+                    <h2 class="section-title">Crafting Excellence in Every Pattern</h2>
+                    <p class="section-subtitle">Master craftsman dedicated to transforming creative visions into precise, production-ready patterns</p>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-image" data-reveal>
+                        <div class="about-image-main">
+                            <i class="fas fa-drafting-compass"></i>
+                        </div>
+                        <div class="about-image-bg"></div>
+                    </div>
+
+                    <div class="about-content" data-reveal>
+                        <h3>Master of Pattern Precision</h3>
+                        <p>With an extensive 23-year journey in pattern making, I have evolved from a skilled craftsman to a master designer, specializing in both traditional manual techniques and cutting-edge CAD technologies.</p>
+                        
+                        <p>My international experience, including 5 years in Saudi Arabia, has enriched my understanding of diverse fashion markets and manufacturing standards.</p>
+
+                        <div class="about-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div class="feature-text">23+ Years of Mastery</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <div class="feature-text">CAD & Manual Expertise</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="feature-text">International Experience</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="feature-text">Team Leadership</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="section experience" id="experience">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <div class="section-badge">
+                        <i class="fas fa-briefcase"></i>
+                        Experience
+                    </div>
+                    <h2 class="section-title">Professional Journey</h2>
+                    <p class="section-subtitle">A timeline of growth, innovation, and mastery in pattern making across distinguished organizations</p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item" data-reveal>
+                        <div class="timeline-content">
+                            <div class="timeline-date">2025 - Present</div>
+                            <h3 class="timeline-title">Pattern Master</h3>
+                            <div class="timeline-company">Sahil Kochhar</div>
+                            <p class="timeline-description">Leading pattern development for contemporary fashion collections, implementing innovative techniques for enhanced production efficiency.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item" data-reveal>
+                        <div class="timeline-content">
+                            <div class="timeline-date">2013 - 2025</div>
+                            <h3 class="timeline-title">Senior Pattern Master</h3>
+                            <div class="timeline-company">High Street Essentials Pvt. Ltd.</div>
+                            <p class="timeline-description">Spearheaded pattern development for high-volume production, managed cross-functional teams, and optimized manufacturing processes.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item" data-reveal>
+                        <div class="timeline-content">
+                            <div class="timeline-date">2001 - 2013</div>
+                            <h3 class="timeline-title">Senior Pattern Master</h3>
+                            <div class="timeline-company">EM Libas</div>
+                            <p class="timeline-description">Developed comprehensive pattern libraries, mentored junior staff, and established quality control protocols for pattern accuracy.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item" data-reveal>
+                        <div class="timeline-content">
+                            <div class="timeline-date">1995 - 2000</div>
+                            <h3 class="timeline-title">Pattern Master</h3>
+                            <div class="timeline-company">Mayuri International</div>
+                            <p class="timeline-description">Advanced from junior roles to master level, specializing in complex garment construction and international export standards.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item" data-reveal>
+                        <div class="timeline-content">
+                            <div class="timeline-date">1989 - 1994</div>
+                            <h3 class="timeline-title">Master (Cutting & Stitching)</h3>
+                            <div class="timeline-company">Abu Abdul Rahman al Shaibi, Riyadh</div>
+                            <p class="timeline-description">International experience in the Saudi Arabian market, mastering Middle Eastern fashion preferences and traditional garment construction.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item" data-reveal>
+                        <div class="timeline-content">
+                            <div class="timeline-date">1987 - 1989</div>
+                            <h3 class="timeline-title">Pattern Cutting & Stitching</h3>
+                            <div class="timeline-company">Shabab Boutique, Greater Kailash</div>
+                            <p class="timeline-description">Foundation years learning traditional pattern making techniques and developing precision in garment construction.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section skills" id="skills">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <div class="section-badge">
+                        <i class="fas fa-cogs"></i>
+                        Skills
+                    </div>
+                    <h2 class="section-title">Technical Expertise</h2>
+                    <p class="section-subtitle">A comprehensive skill set combining traditional craftsmanship with modern technology</p>
+                </div>
+
+                <div class="skills-grid">
+                    <div class="skill-category" data-reveal>
+                        <div class="skill-category-header">
+                            <div class="skill-category-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h3 class="skill-category-title">Technical Skills</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-ruler-combined"></i>
+                                </div>
+                                <div class="skill-item-name">Pattern Making</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-laptop"></i>
+                                </div>
+                                <div class="skill-item-name">CAD Software</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div class="skill-item-name">Grading & Marking</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-cut"></i>
+                                </div>
+                                <div class="skill-item-name">TukaCAD</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-computer"></i>
+                                </div>
+                                <div class="skill-item-name">Optitex</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category" data-reveal>
+                        <div class="skill-category-header">
+                            <div class="skill-category-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="skill-category-title">Leadership</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-users-cog"></i>
+                                </div>
+                                <div class="skill-item-name">Team Management</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <div class="skill-item-name">Leadership</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div class="skill-item-name">Communication</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="skill-item-name">Innovation</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="skill-item-name">Process Optimization</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category" data-reveal>
+                        <div class="skill-category-header">
+                            <div class="skill-category-icon">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <h3 class="skill-category-title">Languages</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="skill-item-name">Hindi - Fluent</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="skill-item-name">English - Basic</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-item-icon">
+                                    <i class="fas fa-mosque"></i>
+                                </div>
+                                <div class="skill-item-name">Arabic - Basic</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section contact" id="contact">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <div class="section-badge">
+                        <i class="fas fa-envelope"></i>
+                        Contact
+                    </div>
+                    <h2 class="section-title">Let's Connect</h2>
+                    <p class="section-subtitle">Ready to bring your vision to life with precision and expertise</p>
+                </div>
+
+                <div class="contact-grid">
+                    <div class="contact-card" data-reveal>
+                        <div class="contact-card-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="contact-card-title">Call Me</h3>
+                        <div class="contact-card-info">
+                            <p>Primary: 8595065893</p>
+                            <p>Secondary: 8750183041</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-card" data-reveal>
+                        <div class="contact-card-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="contact-card-title">Email Me</h3>
+                        <div class="contact-card-info">
+                            <p>amirulhassan9891@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-card" data-reveal>
+                        <div class="contact-card-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3 class="contact-card-title">Visit Me</h3>
+                        <div class="contact-card-info">
+                            <p>House no A-348/8, 4th floor</p>
+                            <p>Jaitpur Extension, Badarpur</p>
+                            <p>New Delhi 110044</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('revealed');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with data-reveal
+        document.querySelectorAll('[data-reveal]').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Button Click Effects
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                let ripple = document.createElement('span');
+                let rect = this.getBoundingClientRect();
+                let size = Math.max(rect.width, rect.height);
+                let x = e.clientX - rect.left - size / 2;
+                let y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add ripple animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            .btn {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
